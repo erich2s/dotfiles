@@ -1,0 +1,10 @@
+[user]
+	name = Eric Huang
+	email = erich2s0103@gmail.com
+[pull]
+	ff = only
+	rebase = true
+[color]
+	ui = auto
+[init]
+	defaultBranch = main
