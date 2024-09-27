@@ -10,18 +10,18 @@ ZSH_THEME="gozilla"
 
 ENABLE_CORRECTION="true"
 
-plugins=(git zsh-autosuggestions zsh-syntax-highlighting
-  history-substring-search docker npm)
+plugins=(git zsh-autosuggestions zsh-syntax-highlighting history-substring-search docker npm)
 
 source $ZSH/oh-my-zsh.sh
 
-export https_proxy=http://127.0.0.1:7890
-export http_proxy=http://127.0.0.1:7890
-export all_proxy=socks5://127.0.0.1:7890
+#export https_proxy=http://127.0.0.1:7890
+#export http_proxy=http://127.0.0.1:7890
+#export all_proxy=socks5://127.0.0.1:7890
 
 # tabtab source for packages
 # uninstall by removing these lines
 [[ -f ~/.config/tabtab/zsh/__tabtab.zsh ]] && . ~/.config/tabtab/zsh/__tabtab.zsh || true
+alias c="clear"
 
 # ----------------Python Settings----------------
 alias python="python3"
@@ -50,5 +50,3 @@ export PATH="$BUN_INSTALL/bin:$PATH"
 alias d="nr dev"
 alias i="ni"
 alias b="nr build"
-
-PATH=~/.console-ninja/.bin:$PATH
