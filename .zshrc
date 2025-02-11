@@ -8,7 +8,7 @@ export ZSH="$HOME/.oh-my-zsh"
 
 ZSH_THEME="gozilla"
 
-ENABLE_CORRECTION="true"
+#ENABLE_CORRECTION="true"
 
 plugins=(git zsh-autosuggestions zsh-syntax-highlighting history-substring-search docker npm)
 
@@ -21,6 +21,7 @@ source $ZSH/oh-my-zsh.sh
 # tabtab source for packages
 # uninstall by removing these lines
 [[ -f ~/.config/tabtab/zsh/__tabtab.zsh ]] && . ~/.config/tabtab/zsh/__tabtab.zsh || true
+
 alias c="clear"
 
 # ----------------Python Settings----------------
@@ -50,3 +51,9 @@ export PATH="$BUN_INSTALL/bin:$PATH"
 alias d="nr dev"
 alias i="ni"
 alias b="nr build"
+
+# Added by LM Studio CLI (lms)
+export PATH="$PATH:/Users/eric/.cache/lm-studio/bin"
+
+# eza
+alias ls="eza --color=auto  --git --no-filesize --icons=always --no-time --no-user --no-permissions"
