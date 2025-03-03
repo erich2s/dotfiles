@@ -1,6 +1,4 @@
 # ----------------System Settings----------------
-# append completions to fpath
-fpath=(${ASDF_DIR}/completions $fpath)
 # initialise completions with ZSH's compinit
 autoload -Uz compinit && compinit
 
@@ -8,19 +6,9 @@ export ZSH="$HOME/.oh-my-zsh"
 
 ZSH_THEME="gozilla"
 
-#ENABLE_CORRECTION="true"
-
-plugins=(git zsh-autosuggestions zsh-syntax-highlighting history-substring-search docker npm)
+plugins=(git docker zsh-autosuggestions zsh-completions zsh-syntax-highlighting)
 
 source $ZSH/oh-my-zsh.sh
-
-#export https_proxy=http://127.0.0.1:7890
-#export http_proxy=http://127.0.0.1:7890
-#export all_proxy=socks5://127.0.0.1:7890
-
-# tabtab source for packages
-# uninstall by removing these lines
-[[ -f ~/.config/tabtab/zsh/__tabtab.zsh ]] && . ~/.config/tabtab/zsh/__tabtab.zsh || true
 
 alias c="clear"
 
@@ -32,9 +20,34 @@ alias pip="pip3"
 # pnpm
 export PNPM_HOME="/Users/eric/Library/pnpm"
 case ":$PATH:" in
-*":$PNPM_HOME:"*) ;;
-*) export PATH="$PNPM_HOME:$PATH" ;;
+  *":$PNPM_HOME:"*) ;;
+  *) export PATH="$PNPM_HOME:$PATH" ;;
 esac
+#compdef pnpm
+if type compdef &>/dev/null; then
+  _pnpm_completion () {
+    local reply
+    local si=$IFS
+
+    IFS=$'\n' reply=($(COMP_CWORD="$((CURRENT-1))" COMP_LINE="$BUFFER" COMP_POINT="$CURSOR" SHELL=zsh pnpm completion-server -- "${words[@]}"))
+    IFS=$si
+
+    if [ "$reply" = "__tabtab_complete_files__" ]; then
+      _files
+    else
+      _describe 'values' reply
+    fi
+  }
+  # When called by the Zsh completion system, this will end with
+  # "loadautofunc" when initially autoloaded and "shfunc" later on, otherwise,
+  # the script was "eval"-ed so use "compdef" to register it with the
+  # completion system
+  if [[ $zsh_eval_context == *func ]]; then
+    _pnpm_completion "$@"
+  else
+    compdef _pnpm_completion pnpm
+  fi
+fi
 # pnpm end
 
 # fnm
@@ -52,8 +65,8 @@ alias d="nr dev"
 alias i="ni"
 alias b="nr build"
 
-# Added by LM Studio CLI (lms)
-export PATH="$PATH:/Users/eric/.cache/lm-studio/bin"
-
 # eza
-alias ls="eza --color=auto  --git --no-filesize --icons=always --no-time --no-user --no-permissions"
+alias ls="eza --color=auto --git --no-filesize --icons=always --no-time --no-user --no-permissions"
+
+# starship
+eval "$(starship init zsh)"
